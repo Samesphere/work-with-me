@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work With Me – Mark J Reynolds</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13161d;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8e6df;
+    --muted: #6b6f7a;
+    --accent: #4a9eff;
+    --accent2: #f07f3c;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 48px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+  }
+  nav .logo { font-family: var(--mono); font-size: 14px; color: var(--muted); letter-spacing: 0.05em; }
+  nav .links { display: flex; gap: 32px; }
+  nav .links a { color: var(--muted); text-decoration: none; font-size: 14px; letter-spacing: 0.04em; transition: color 0.2s; }
+  nav .links a:hover { color: var(--text); }
+
+  /* SECTIONS */
+  section { max-width: 680px; margin: 0 auto; padding: 80px 24px; }
+  section + section { border-top: 1px solid var(--border); }
+
+  /* HERO */
+  .hero { text-align: center; padding-top: 100px; padding-bottom: 100px; }
+  .hero .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 52px);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .hero h1 span.a { color: var(--accent); }
+  .hero h1 span.b { color: var(--accent2); }
+  .hero .sub {
+    color: var(--muted);
+    font-size: 17px;
+    max-width: 460px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+  .hero .location {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 40px;
+  }
+  .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: opacity 0.2s;
+  }
+  .btn:hover { opacity: 0.8; }
+  .btn-primary { background: var(--accent); color: #0d0f14; }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text); }
+
+  /* HOW IT WORKS */
+  h2 {
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .section-sub {
+    color: var(--muted);
+    margin-bottom: 48px;
+    font-size: 16px;
+  }
+
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 20px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 4px;
+  }
+  .step h3 { font-size: 16px; font-weight: 500; margin-bottom: 6px; }
+  .step p { color: var(--muted); font-size: 15px; line-height: 1.65; }
+
+  /* WHAT I BUILD */
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .tag.lit { border-color: rgba(74,158,255,0.3); color: var(--accent); }
+
+  /* ENGAGEMENT */
+  .cards { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px;
+  }
+  .card-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .card h3 { font-size: 18px; font-weight: 500; margin-bottom: 8px; }
+  .card p { color: var(--muted); font-size: 15px; line-height: 1.65; }
+  .card .rate {
+    display: inline-block;
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent2);
+  }
+
+  /* IMPACT */
+  .case { padding: 32px 0; border-bottom: 1px solid var(--border); }
+  .case:last-child { border-bottom: none; }
+  .case-client {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 6px;
+  }
+  .case h3 { font-size: 16px; font-weight: 500; margin-bottom: 16px; }
+  .case-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .case-col-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .case-col p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .case-stack {
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .case-impact {
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  /* CTA */
+  .cta { text-align: center; }
+  .cta h2 { margin-bottom: 12px; }
+  .cta p { color: var(--muted); margin-bottom: 32px; font-size: 16px; }
+  .cta-links { display: flex; flex-direction: column; gap: 10px; align-items: center; margin-top: 32px; }
+  .cta-links a { color: var(--muted); font-size: 14px; text-decoration: none; transition: color 0.2s; }
+  .cta-links a:hover { color: var(--text); }
+  .cta-links a::before { content: '→ '; color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 16px 20px; }
+    .case-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">MarkJReynolds.com</span>
+  <div class="links">
+    <a href="/learning-by-building">Learning by Building</a>
+    <a href="/work-with-me">Work With Me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="eyebrow">Based in Southport, Gold Coast</p>
+  <h1>I build from <span class="a">inside</span><br>your business.</h1>
+  <p class="sub">I embed directly with your team — mapping how work actually gets done, then building the systems that remove the manual effort.</p>
+  <div class="btn-row">
+    <a href="tel:0415569760" class="btn btn-primary">Call Mark · 0415 569 760</a>
+    <a href="#how" class="btn btn-ghost">See how it works</a>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <h2>How it works</h2>
+  <p class="section-sub">No discovery calls that go nowhere. No proposals that gather dust.</p>
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">01</span>
+      <div>
+        <h3>Process Discovery Day</h3>
+        <p>I come into your office, shadow your team, and ask the questions nobody else is asking. What's annoying? What gets done twice? What only happens because someone remembers to do it? I map the whole thing.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <div>
+        <h3>You get a plain-English report</h3>
+        <p>Every process I could automate or streamline — prioritised by effort and impact. You keep the report regardless. No obligation to go further.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <div>
+        <h3>I embed and build</h3>
+        <p>If you want to act on it, I work on-site or remotely at your pace — full-time or part-time. All I need is a desk and a laptop. I build the solutions, train your team, and hand everything over clean.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT I BUILD -->
+<section>
+  <h2>What I build</h2>
+  <p class="section-sub">Practical systems your team will actually use. Not theory. Not prototypes.</p>
+  <div class="tag-cloud">
+    <span class="tag lit">n8n automation workflows</span>
+    <span class="tag lit">AI agents</span>
+    <span class="tag lit">RAG knowledge systems</span>
+    <span class="tag">custom web tools</span>
+    <span class="tag">Chrome extensions</span>
+    <span class="tag">process documentation</span>
+    <span class="tag">client intake systems</span>
+    <span class="tag">internal dashboards</span>
+    <span class="tag">email & comms automation</span>
+    <span class="tag">custom GPTs</span>
+    <span class="tag">Claude Skills</span>
+    <span class="tag">reporting automation</span>
+  </div>
+</section>
+
+<!-- ENGAGEMENT -->
+<section>
+  <h2>How I engage</h2>
+  <p class="section-sub">Flexible by design. No retainers, no lock-in.</p>
+  <div class="cards">
+    <div class="card">
+      <p class="card-label">Embedded contractor</p>
+      <h3>On-site or remote — full or part time</h3>
+      <p>I work inside your business like a team member. You give direction. I build. Best for businesses ready to move fast on multiple processes.</p>
+      <span class="rate">$60/hr · all I need is a desk and a laptop</span>
+    </div>
+    <div class="card">
+      <p class="card-label">Starting point</p>
+      <h3>Process Discovery Day</h3>
+      <p>One day. I map your workflows, identify the bottlenecks, and hand you a prioritised report of what's worth automating. A no-risk way to see what's possible.</p>
+      <span class="rate">Get in touch to arrange</span>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section>
+  <h2>Impact in action</h2>
+  <p class="section-sub">Real problems. Real solutions. Real results.</p>
+
+  <div class="case">
+    <p class="case-client">Fuel Bakehouse Catering</p>
+    <h3>Quote request automation</h3>
+    <div class="case-row">
+      <div>
+        <p class="case-col-label">Problem</p>
+        <p class="case-col">Every catering quote required manual data entry and email generation. 5 minutes per quote × 6 requests daily = 30 minutes of repetitive work, every day.</p>
+      </div>
+      <div>
+        <p class="case-col-label">Solution</p>
+        <p class="case-col">n8n workflow pulls the incoming request, writes to Google Sheets, generates the quote email, and sends a Telegram alert — automatically.</p>
+      </div>
+    </div>
+    <p class="case-stack">Gmail · Google Sheets · n8n · Gemini · Telegram</p>
+    <p class="case-impact">→ 30 minutes saved daily · 15 hours recovered per month</p>
+  </div>
+
+  <div class="case">
+    <p class="case-client">BizBrains — Personal Knowledge System</p>
+    <h3>RAG-based knowledge & process retrieval</h3>
+    <div class="case-row">
+      <div>
+        <p class="case-col-label">Problem</p>
+        <p class="case-col">Documented processes and business knowledge scattered across tools. Finding anything took longer than just doing it from memory.</p>
+      </div>
+      <div>
+        <p class="case-col-label">Solution</p>
+        <p class="case-col">Built a RAG system that indexes all documents, answers natural language questions, and surfaces the original source instantly.</p>
+      </div>
+    </div>
+    <p class="case-stack">Claude Code · Coda · n8n · Supabase · Cohere Re-Ranker · OpenAI · Vercel</p>
+    <p class="case-impact">→ Live and in ongoing development</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2>Ready to find out what's possible?</h2>
+  <p>Let's start with a conversation. No pitch. Just a look at how your business runs and whether I can help.</p>
+  <div class="btn-row">
+    <a href="tel:0415569760" class="btn btn-primary">Call Mark · 0415 569 760</a>
+  </div>
+  <div class="cta-links">
+    <a href="mailto:mark@markjreynolds.com">mark@markjreynolds.com</a>
+    <a href="https://linkedin.com/in/markjreynolds">Connect on LinkedIn</a>
+  </div>
+</section>
+
+<footer>
+  <span>MarkJReynolds.com</span>
+  <span>Southport, Gold Coast · Available now</span>
+</footer>
+
+</body>
+</html>
