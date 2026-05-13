@@ -28,19 +28,35 @@ export default function TestImagePage() {
       setStatus(`Task ${taskId} — polling every 3s...`)
 
       const poll = async () => {
-        const r = await fetch(`/api/kie-status?taskId=${taskId}`)
-        const result = await r.json() as { state: string; imageUrl?: string; failMsg?: string }
+        try {
+          const r = await fetch(`/api/kie-status?taskId=${taskId}`)
+          const result = await r.json() as { state: string; imageUrl?: string; failMsg?: string; _raw?: unknown; error?: string }
 
-        if (result.state === 'success' && result.imageUrl) {
-          setImageUrl(result.imageUrl)
-          setStatus('Done.')
+          if (result.error) {
+            setError(`API error: ${result.error}`)
+            setLoading(false)
+            return
+          }
+
+          if (result.state === 'success') {
+            if (result.imageUrl) {
+              setImageUrl(result.imageUrl)
+              setStatus('Done.')
+            } else {
+              // Success but no URL extracted — show raw for debugging
+              setError(`State is success but no image URL found. Raw: ${JSON.stringify(result._raw)}`)
+            }
+            setLoading(false)
+          } else if (result.state === 'fail') {
+            setError(`Generation failed: ${result.failMsg ?? 'unknown'}`)
+            setLoading(false)
+          } else {
+            setStatus(`Status: ${result.state ?? 'unknown'}...`)
+            setTimeout(poll, 3000)
+          }
+        } catch (e) {
+          setError(`Poll error: ${String(e)}`)
           setLoading(false)
-        } else if (result.state === 'fail') {
-          setError(`Generation failed: ${result.failMsg ?? 'unknown'}`)
-          setLoading(false)
-        } else {
-          setStatus(`Status: ${result.state}...`)
-          setTimeout(poll, 3000)
         }
       }
 
