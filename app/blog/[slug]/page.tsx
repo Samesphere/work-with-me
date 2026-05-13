@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote/rsc'
+import Image from 'next/image'
 import type { Metadata } from 'next'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -69,7 +70,13 @@ export default async function ArticlePage({ params }: Props) {
         </div>
 
         {article.image && (
-          <img src={article.image} alt={article.title} className="article-hero" />
+          <Image
+            src={article.image}
+            alt={article.title}
+            width={1200}
+            height={630}
+            className="article-hero"
+          />
         )}
 
         <article className="prose prose-invert">
