@@ -62,7 +62,7 @@ title: "${title}"
 date: "${date}"
 category: "${category}"
 description: "${description}"
-image: "/images/blog/${slug}.webp"
+image: "/images/blog/${slug}.jpg"
 tags: []
 draft: false
 ---

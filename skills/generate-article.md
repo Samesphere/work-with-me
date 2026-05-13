@@ -46,12 +46,12 @@ Run:
 npx tsx tools/generate_image.ts [slug] [title]
 ```
 
-This writes to `public/images/blog/[slug].webp`. If the Kie API isn't configured yet, it creates a placeholder and logs a warning — that's fine.
+This writes to `public/images/blog/[slug].jpg`. If the Kie API isn't configured yet, it creates a placeholder and logs a warning — that's fine.
 
 **5. Commit**
 
 ```
-git add content/blog/[slug].mdx public/images/blog/[slug].webp
+git add content/blog/[slug].mdx public/images/blog/[slug].jpg
 git commit -m "content: add article \"[title]\""
 ```
 
