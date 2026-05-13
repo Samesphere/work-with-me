@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
     }
 
     const data = json.data
-    if (!data) return NextResponse.json({ error: `No data field in Kie response`, _raw: json })
+    if (!data) return NextResponse.json({ error: `No data field. Raw: ${JSON.stringify(json).slice(0, 500)}` })
 
     const { state, failMsg } = data
 
