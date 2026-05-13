@@ -1,17 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-type RecordInfo = {
-  code: number
-  data: {
-    state: string
-    resultJson?: string | null
-    failMsg?: string
-    info?: { resultImageUrl?: string; originImageUrl?: string }
-  }
+type RecordData = {
+  state: string
+  resultJson?: string | null
+  failMsg?: string
+  info?: { resultImageUrl?: string; originImageUrl?: string }
 }
 
-function extractImageUrl(data: RecordInfo['data']): string | undefined {
-  // Try resultJson first (general task format)
+function extractImageUrl(data: RecordData): string | undefined {
   if (data.resultJson) {
     try {
       const parsed = JSON.parse(data.resultJson) as { resultUrls?: string[]; resultImageUrl?: string }
@@ -19,27 +15,40 @@ function extractImageUrl(data: RecordInfo['data']): string | undefined {
       if (url) return url
     } catch { /* fall through */ }
   }
-  // Flux Kontext callback format
   return data.info?.resultImageUrl
 }
 
 export async function GET(req: NextRequest) {
-  const key = process.env.KIE_API_KEY
-  const taskId = req.nextUrl.searchParams.get('taskId')
-  if (!key || !taskId) return NextResponse.json({ error: 'Missing params' }, { status: 400 })
+  try {
+    const key = process.env.KIE_API_KEY
+    const taskId = req.nextUrl.searchParams.get('taskId')
+    if (!key || !taskId) return NextResponse.json({ error: 'Missing params' }, { status: 400 })
 
-  const res = await fetch(`https://api.kie.ai/api/v1/jobs/recordInfo?taskId=${taskId}`, {
-    headers: { 'Authorization': `Bearer ${key}` },
-  })
+    const res = await fetch(`https://api.kie.ai/api/v1/jobs/recordInfo?taskId=${taskId}`, {
+      headers: { 'Authorization': `Bearer ${key}` },
+    })
 
-  const json = await res.json() as RecordInfo
-  const { state, failMsg } = json.data
+    const text = await res.text()
 
-  if (state === 'success') {
-    const imageUrl = extractImageUrl(json.data)
-    // Return raw data alongside so we can debug if imageUrl is still missing
-    return NextResponse.json({ state, imageUrl, _raw: json.data })
+    let json: { code: number; data: RecordData }
+    try {
+      json = JSON.parse(text) as { code: number; data: RecordData }
+    } catch {
+      return NextResponse.json({ error: `Kie returned non-JSON (status ${res.status}): ${text.slice(0, 300)}` })
+    }
+
+    const data = json.data
+    if (!data) return NextResponse.json({ error: `No data field in Kie response`, _raw: json })
+
+    const { state, failMsg } = data
+
+    if (state === 'success') {
+      const imageUrl = extractImageUrl(data)
+      return NextResponse.json({ state, imageUrl, _raw: data })
+    }
+
+    return NextResponse.json({ state, failMsg, _raw: data })
+  } catch (e) {
+    return NextResponse.json({ error: `Route exception: ${String(e)}` })
   }
-
-  return NextResponse.json({ state, failMsg, _raw: json.data })
 }
