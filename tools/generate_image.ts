@@ -30,22 +30,26 @@ async function createTask(prompt: string): Promise<string> {
   return json.data.taskId
 }
 
+// successFlag: 0 = generating, 1 = success, 2 = creation failed, 3 = generation failed
 async function pollTask(taskId: string): Promise<string> {
   while (true) {
     await new Promise(r => setTimeout(r, 3000))
-    const res = await fetch(`${BASE}/jobs/recordInfo?taskId=${taskId}`, {
+    const res = await fetch(`${BASE}/flux/kontext/record-info?taskId=${taskId}`, {
       headers: { 'Authorization': `Bearer ${KIE_API_KEY}` },
     })
     const json = await res.json() as {
-      data: { state: string; resultJson: string; failMsg?: string }
+      data: { successFlag: number; response?: { resultImageUrl?: string }; errorMessage?: string }
     }
-    const { state, resultJson, failMsg } = json.data
-    console.log(`  Status: ${state}`)
-    if (state === 'success') {
-      const { resultUrls } = JSON.parse(resultJson) as { resultUrls: string[] }
-      return resultUrls[0]
+    const { successFlag, response, errorMessage } = json.data
+    console.log(`  successFlag: ${successFlag}`)
+    if (successFlag === 1) {
+      const url = response?.resultImageUrl
+      if (!url) throw new Error('Success but no resultImageUrl in response')
+      return url
     }
-    if (state === 'fail') throw new Error(`Kie generation failed: ${failMsg ?? 'unknown error'}`)
+    if (successFlag === 2 || successFlag === 3) {
+      throw new Error(`Kie generation failed: ${errorMessage ?? `successFlag ${successFlag}`}`)
+    }
   }
 }
 
