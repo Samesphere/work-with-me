@@ -13,7 +13,7 @@
     "react": "^19",
     "react-dom": "^19",
     "gray-matter": "^4",
-    "next-mdx-remote": "^5",
+    "next-mdx-remote": "^6",
     "@tailwindcss/typography": "^0.5",
     "@tiptap/react": "^2",
     "@tiptap/pm": "^2",
