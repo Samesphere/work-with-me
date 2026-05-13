@@ -1,0 +1,43 @@
+---
+title: "How I Automated 30 Minutes of Daily Admin for a Catering Business"
+date: "2026-05-13"
+category: "Case Studies"
+description: "Every catering quote at Fuel Bakehouse was a manual 5-minute job. Six requests a day, every day. Here's how I built an n8n workflow that handles the whole thing automatically."
+image: "/images/blog/automating-catering-quotes.webp"
+tags: ["n8n", "automation", "google-sheets", "gmail"]
+draft: false
+---
+
+Every catering enquiry at Fuel Bakehouse followed the same path. A request would arrive by email. Someone would open it, copy the details into a Google Sheet, write up a quote email, and fire it back. Five minutes. Six times a day. Monday to Friday.
+
+That's 150 minutes a week on a task that never changes.
+
+When I sat with the team on the discovery day, the quote process was the first thing they flagged — not because it was broken, but because it was genuinely irritating. The kind of work that eats your morning before you've even started.
+
+## What the workflow actually does
+
+The trigger is Gmail. When a new catering enquiry lands in a specific inbox, n8n picks it up and starts moving.
+
+First, it extracts the key details from the email: the event date, number of guests, dietary requirements, and any special requests. This is where Gemini earns its place — parsing unstructured email text into structured data is exactly what it's good at.
+
+That data goes straight into a Google Sheet. One row per enquiry, timestamped, with every field populated. No copy-pasting, no switching tabs, no forgetting to log it.
+
+Then n8n generates the quote email. The template already knows the menu options, pricing tiers, and terms. It pulls the event details from the extracted data and assembles the response. For most enquiries it's correct with no edits needed. For anything unusual, the team gets a flag via Telegram before it sends.
+
+Finally: a Telegram notification to the catering manager. Not an alarm — a heads-up. The quote is done, here's the Google Sheet row, here's the draft email. Approve or edit in one tap.
+
+## What I'd do differently
+
+The Gemini extraction occasionally misreads ambiguous phrasing in email subjects or footers. I'd add a human-review step for any request where the confidence score is below a threshold — a simple Telegram message asking for a quick confirmation before the quote sends.
+
+I'd also add a follow-up sequence. If the client hasn't responded within 48 hours, a gentle nudge goes out automatically. The team hasn't asked for it yet, but it's a one-node addition when they do.
+
+## The result
+
+30 minutes saved daily. About 15 hours per month.
+
+But the actual value isn't the time — it's the headspace. The team stopped dreading enquiry mornings. The Google Sheet started being used for reporting, not just logging. And the catering manager could handle double the volume without adding staff.
+
+That's what a well-placed workflow does. It doesn't just remove the work. It changes what feels possible.
+
+If you want to map what's automatable in your business, [start here](/work-with-me).
